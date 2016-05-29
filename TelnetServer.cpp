@@ -19,6 +19,8 @@ string message[100];
 bool used[100] = {false};
 int id[100];
 
+
+
 int main(int argc, char* argv[]) {
     cout << "Telnet Server is running...\n";
 
@@ -32,9 +34,29 @@ int main(int argc, char* argv[]) {
     try {
         ServerSocket server(SERV_PORT);
         while (true) {
+            ServerSocket new_sock;
+            server.accept(new_sock);
+            int i = 0;
+            try {
 
+                while (true) {
+                    string data;
+                    string reply;
+                    stringstream stream;
+                    char temp[255];
+                    time_t now;
+                    new_sock >> data;
+
+                    //if (data[0] == IAC) {
+
+                    //}
+                    cout << data;
+                }
+            } catch (ExceptionSock& e) {
+                cout << "Exception was caught:" << e.description() << "\nExiting.\n";
+            }
         }
-    } catch (ExceptionSock) {
-
+    } catch (ExceptionSock& e) {
+        cout << "Exception was caught:" << e.description() << "\nExiting.\n";
     }
 }
