@@ -37,6 +37,7 @@ void ClientSocket::conn ( std::string host, int port )
 
 const ClientSocket& ClientSocket::operator << ( const std::string& s ) const
 {
+    int i = 0;
     if ( ! Socket::send ( s ) )
     {
         throw ExceptionSock ( "Could not write to socket." );

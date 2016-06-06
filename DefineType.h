@@ -20,7 +20,7 @@
 #define DO      253
 #define DONT    254
 #define IAC     255
-#define SERV_PORT   30
+#define SERV_PORT   23
 #define MAX_BUF 1024
 
 
