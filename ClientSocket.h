@@ -12,7 +12,7 @@ class ClientSocket : private Socket
 {
 public:
     void conn(std::string host, int port);
-    void disconn();
+    //void disconn();
     ClientSocket ( std::string host, int port );
     virtual ~ClientSocket(){};
 

@@ -193,3 +193,7 @@ void Socket::set_non_blocking ( const bool b )
     fcntl ( m_sock,F_SETFL,opts );
 
 }
+
+char* Socket::get_socket_ip(){
+    return inet_ntoa(m_addr.sin_addr);
+}

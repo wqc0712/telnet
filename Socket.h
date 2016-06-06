@@ -42,6 +42,8 @@ public:
 
     bool is_valid() const { return m_sock != -1; }
 
+    char* get_socket_ip();
+
 private:
 
     int m_sock;

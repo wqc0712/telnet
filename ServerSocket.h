@@ -21,6 +21,8 @@ public:
 
     void accept ( ServerSocket& );
 
+    char* get_socket_ip();
+
 };
 
 #endif //TELNET_SERVERSOCKET_H

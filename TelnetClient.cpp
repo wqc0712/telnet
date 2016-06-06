@@ -18,12 +18,18 @@ int main(){
     ClientSocket* clientsock = new ClientSocket("127.0.0.1",SERV_PORT);
     while (true) {
         string data;
-        cin >> data;
-        if (data == "exit") {
-            break;
-        }
+        string reply;
         try {
-            *clientsock << data;
+
+            *clientsock >> data;
+            cout << data;
+            cin >> reply;
+            if (reply == "exit") {
+                *clientsock << reply;
+                delete clientsock;
+                break;
+            }
+            *clientsock << reply;
         } catch (ExceptionSock) {
 
         }

@@ -4,6 +4,7 @@
 
 #include "ServerSocket.h"
 #include "ExceptionSock.h"
+#include <iostream>
 
 ServerSocket::ServerSocket ( int port )
 {
@@ -48,6 +49,7 @@ const ServerSocket& ServerSocket::operator >> ( std::string& s ) const
         throw ExceptionSock ( "Could not read from socket." );
     }
     usleep(3000);
+//    std::cout << "Successful receive!" << std::endl;
     return *this;
 }
 
@@ -57,4 +59,9 @@ void ServerSocket::accept ( ServerSocket& sock )
     {
         throw ExceptionSock ( "Could not accept socket." );
     }
+}
+
+
+char* ServerSocket::get_socket_ip(){
+    return Socket::get_socket_ip();
 }

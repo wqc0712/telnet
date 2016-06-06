@@ -33,6 +33,8 @@ void ClientSocket::conn ( std::string host, int port )
 
 }
 
+
+
 const ClientSocket& ClientSocket::operator << ( const std::string& s ) const
 {
     if ( ! Socket::send ( s ) )
