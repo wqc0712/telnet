@@ -4,6 +4,7 @@
 
 #include "ClientSocket.h"
 #include "ExceptionSock.h"
+#include "log.h"
 
 ClientSocket::ClientSocket ( std::string host, int port )
 {
@@ -16,6 +17,8 @@ ClientSocket::ClientSocket ( std::string host, int port )
     {
         throw ExceptionSock ( "Could not bind to port." );
     }
+
+    //Socket::set_non_blocking(true);
 
 }
 
@@ -31,6 +34,8 @@ void ClientSocket::conn ( std::string host, int port )
         throw ExceptionSock ( "Could not bind to port." );
     }
 
+    //Socket::set_non_blocking(true);
+
 }
 
 
@@ -42,7 +47,7 @@ const ClientSocket& ClientSocket::operator << ( const std::string& s ) const
     {
         throw ExceptionSock ( "Could not write to socket." );
     }
-    usleep(3000);
+    usleep(25);
     return *this;
 
 }
@@ -54,6 +59,6 @@ const ClientSocket& ClientSocket::operator >> ( std::string& s ) const
     {
         throw ExceptionSock ( "Could not read from socket." );
     }
-    usleep(3000);
+    usleep(25);
     return *this;
 }

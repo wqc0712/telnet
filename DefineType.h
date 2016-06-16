@@ -5,6 +5,7 @@
 #ifndef TELNET_DEFINETYPE_H
 #define TELNET_DEFINETYPE_H
 
+#define ECHO    1
 #define _EOF    236
 #define SUSP    237
 #define ABORT   238

@@ -12,6 +12,7 @@
 bool IsConfigure(std::string data);
 std::string DealConfigure(std::string data);
 std::string SendConfigure();
+std::string GetType(char option);
 
 std::string DealWill(char option);
 std::string DealDo(char option);

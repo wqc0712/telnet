@@ -11,8 +11,11 @@
 #include <unistd.h>
 #include <sstream>
 #include <pthread.h>
+#include "log.h"
 
 using namespace std;
+
+string ProgType = "Server";
 
 string ipTable[100];
 string message[100];
@@ -24,24 +27,52 @@ int id[100];
 
 void* thread(void* argv) {
     ServerSocket* new_sock = (ServerSocket*)argv;
-
+    int ID = 0;
+    for (int i = 1;i < 100;i++) {
+        if (!used[i]) {
+            used[i] = true;
+            ID = i;
+            break;
+        }
+    }
     try {
         while (true) {
             string data;
             string reply;
             *new_sock >> data;
-            reply = data + "\n";
+            reply = data;
             if (data == "exit") {
                 delete new_sock;
                 return (void*)0;
             }
             *new_sock << reply;
-            cout << new_sock->get_socket_ip() << "::" << data << endl;
+            cout << ID << "::" << data;
         }
     } catch (ExceptionSock e) {
+        used[ID] = false;
         cout << "Exception was caught:" << e.description() << "\nExiting.\n";
     }
     return (void*)1;
+}
+
+bool EqualString(string a,string b) {
+    int i=0;
+    while (i < a.length() && i < b.length()) {
+        if (a[i] != b[i]) return false;
+        i++;
+    }
+    if (a.length() < b.length()) {
+        while (i < b.length()) {
+            if (b[i] != '\n' && b[i] != '\r') return false;
+            i++;
+        }
+    } else {
+        while (i < a.length()) {
+            if (a[i] != '\n' && a[i] != '\r') return false;
+            i++;
+        }
+    }
+    return true;
 }
 
 int main(int argc, char* argv[]) {
@@ -68,14 +99,20 @@ int main(int argc, char* argv[]) {
                     string data;
                     string reply;
                     reply = "Welcome To my Telnet Servers!\nPlease input your User Name!\nUser Name:";
+                    PrintLog("Send "+reply+"\n");
                     *new_sock << reply;
                     *new_sock >> data;
-                    if (data == UserName) {
+                    PrintLog("Receive "+data);
+                    PrintLog("User Name: "+data+"\n");
+                    if (EqualString(data,UserName)) {
                         reply = "Password:";
+                        PrintLog("Send "+reply+"\n");
                         *new_sock << reply;
                         *new_sock >> data;
-                        if (data == Passwd) {
+                        PrintLog("Receive "+data);
+                        if (EqualString(data,Passwd)) {
                             reply = "Login success!\n";
+                            PrintLog("Send "+reply+"\n");
                             *new_sock << reply;
                             n = n + 1;
                             int ret;
@@ -84,6 +121,7 @@ int main(int argc, char* argv[]) {
                             continue;
                         } else {
                             reply = "Wrong Password!\n";
+                            PrintLog("Send "+reply+"\n");
                             *new_sock << reply;
                             delete new_sock;
                             new_sock = new ServerSocket();
@@ -91,9 +129,11 @@ int main(int argc, char* argv[]) {
                         }
                     } else {
                         reply = "Wrong User Name!\n";
+                        PrintLog("Send "+reply+"\n");
                         *new_sock << reply;
                         delete new_sock;
                         new_sock = new ServerSocket();
+                        CloseLog();
                         continue;
                     }
 
