@@ -157,6 +157,7 @@ void* outputthread(void* argc) {
 
 int main(int argc,char* argv[]){
     string ip = argv[1];
+    system("stty -echo");
     try {
         ClientSocket *clientsock = new ClientSocket(ip, SERV_PORT);
         pthread_mutex_init(&pmutex, NULL);

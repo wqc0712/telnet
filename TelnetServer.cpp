@@ -41,6 +41,8 @@ void* thread(void* argv) {
             string reply;
             *new_sock >> data;
             reply = data;
+            PrintLog("Receive "+data);
+            CloseLog();
             if (data == "exit") {
                 delete new_sock;
                 return (void*)0;
@@ -102,6 +104,7 @@ int main(int argc, char* argv[]) {
                     PrintLog("Send "+reply+"\n");
                     *new_sock << reply;
                     *new_sock >> data;
+                    *new_sock << data;
                     PrintLog("Receive "+data);
                     PrintLog("User Name: "+data+"\n");
                     if (EqualString(data,UserName)) {
@@ -113,6 +116,7 @@ int main(int argc, char* argv[]) {
                         if (EqualString(data,Passwd)) {
                             reply = "Login success!\n";
                             PrintLog("Send "+reply+"\n");
+                            CloseLog();
                             *new_sock << reply;
                             n = n + 1;
                             int ret;
@@ -122,6 +126,7 @@ int main(int argc, char* argv[]) {
                         } else {
                             reply = "Wrong Password!\n";
                             PrintLog("Send "+reply+"\n");
+                            CloseLog();
                             *new_sock << reply;
                             delete new_sock;
                             new_sock = new ServerSocket();
